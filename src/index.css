@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-space-900 text-white font-sans antialiased overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glow-purple {
+    box-shadow: 0 0 15px rgba(176, 38, 255, 0.4), 0 0 30px rgba(176, 38, 255, 0.2);
+  }
+  
+  .glow-purple-hover:hover {
+    box-shadow: 0 0 20px rgba(176, 38, 255, 0.6), 0 0 40px rgba(176, 38, 255, 0.4);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 10px rgba(176, 38, 255, 0.7), 0 0 20px rgba(176, 38, 255, 0.5);
+  }
+
+  .border-glow {
+    border-color: #b026ff;
+    box-shadow: 0 0 10px rgba(176, 38, 255, 0.5), inset 0 0 10px rgba(176, 38, 255, 0.5);
+  }
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(26, 0, 51, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(176, 38, 255, 0.1);
+}
