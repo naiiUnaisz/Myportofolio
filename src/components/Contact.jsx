@@ -10,14 +10,14 @@ const ContactItem = ({ icon: Icon, title, value, href }) => {
       <div className="bg-space-800 p-4 rounded-full border border-gray-700 group-hover:border-neon-purple transition-colors shrink-0">
         <Icon className="text-neon-purple w-6 h-6" />
       </div>
-      <div className="overflow-hidden">
+      <div className="flex-1 min-w-0">
         <p className="text-gray-400 text-sm tracking-wide mb-1 uppercase font-semibold">{title}</p>
-        <p className="text-white font-medium text-base truncate">{value}</p>
+        <p className="text-white font-medium text-base whitespace-normal break-words">{value}</p>
       </div>
     </>
   );
 
-  const containerClasses = "flex items-center space-x-4 glass p-6 rounded-2xl glow-purple-hover w-full group transition-all duration-300 hover:shadow-[0_0_20px_rgba(176,38,255,0.2)]";
+  const containerClasses = "flex items-start space-x-4 glass p-6 rounded-2xl glow-purple-hover w-full group transition-all duration-300 hover:shadow-[0_0_20px_rgba(176,38,255,0.2)]";
 
   if (href) {
     return (
