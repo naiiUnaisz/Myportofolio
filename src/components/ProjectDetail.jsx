@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa';
+import { useLanguage } from '../contexts/LanguageContext';
 
 import { projectsData } from '../data/projects';
 
@@ -10,6 +11,7 @@ const ProjectDetail = () => {
   const { id } = useParams();
   const projectData = projectsData.find(project => project.id === id);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { language, t } = useLanguage();
 
   if (!projectData) {
     return (
@@ -33,8 +35,12 @@ const ProjectDetail = () => {
     setCurrentImageIndex((prev) => (prev - 1 + projectData.images.length) % projectData.images.length);
   };
 
+  const githubLinks = Array.isArray(projectData.links.github) 
+    ? projectData.links.github 
+    : [{ label: { en: "Source Code", id: "Kode Sumber" }, url: projectData.links.github }];
+
   return (
-    <div className="min-h-screen bg-space-900 text-white font-sans py-24 px-6 md:px-12 relative overflow-hidden">
+    <div className="min-h-screen bg-space-900 text-white font-sans py-24 px-6 md:px-12 relative overflow-hidden" key={language}>
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-neon-purple/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-pink-500/10 blur-[120px] rounded-full pointer-events-none" />
@@ -50,7 +56,7 @@ const ProjectDetail = () => {
         >
           <Link to="/" className="inline-flex items-center text-gray-400 hover:text-neon-purple transition-colors font-medium">
             <ArrowLeft className="mr-2 w-5 h-5" />
-            Back to Home
+            {t('projectDetail.backToHome')}
           </Link>
         </motion.div>
 
@@ -63,7 +69,7 @@ const ProjectDetail = () => {
         >
           <h1 className="text-5xl md:text-7xl font-bold font-heading mb-6 text-glow">{projectData.title}</h1>
           <p className="text-xl text-gray-400 max-w-3xl leading-relaxed">
-            {projectData.shortDescription}
+            {projectData.shortDescription[language]}
           </p>
         </motion.div>
 
@@ -122,18 +128,18 @@ const ProjectDetail = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
           >
             <h3 className="text-3xl font-heading font-bold mb-6 text-white border-b border-gray-800 pb-4">
-              Project Overview
+              {t('projectDetail.projectOverview')}
             </h3>
             
             <div className="text-gray-300 space-y-4 leading-relaxed font-sans whitespace-pre-wrap mb-8">
-              {projectData.fullDescription}
+              {projectData.fullDescription[language]}
             </div>
 
-            {projectData.features && projectData.features.length > 0 && (
+            {projectData.features && projectData.features[language].length > 0 && (
               <>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-purple-400 mb-4 mt-8">KEY FEATURES</h3>
+                <h3 className="text-sm font-bold uppercase tracking-widest text-purple-400 mb-4 mt-8">{t('projectDetail.keyFeatures')}</h3>
                 <ul className="space-y-3">
-                  {projectData.features.map((feature, index) => (
+                  {projectData.features[language].map((feature, index) => (
                     <li key={index} className="flex items-start gap-3 text-gray-300">
                       <span className="text-purple-500 text-sm mt-1">▶</span>
                       <span>{feature}</span>
@@ -155,7 +161,7 @@ const ProjectDetail = () => {
             <div className="glass p-8 rounded-3xl border border-neon-purple/20 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-neon-purple/10 blur-3xl rounded-full" />
               
-              <h4 className="text-lg font-heading font-bold mb-6 text-white">Technologies Used</h4>
+              <h4 className="text-lg font-heading font-bold mb-6 text-white">{t('projectDetail.technologiesUsed')}</h4>
               <div className="flex flex-wrap gap-3 relative z-10">
                 {projectData.techStack.map(tech => (
                   <span 
@@ -170,22 +176,27 @@ const ProjectDetail = () => {
 
             {/* Links and Actions */}
             <div className="glass p-8 rounded-3xl border border-neon-purple/20">
-              <h4 className="text-lg font-heading font-bold mb-6 text-white">Resources</h4>
+              <h4 className="text-lg font-heading font-bold mb-6 text-white">{t('projectDetail.resources')}</h4>
               
-              <a 
-                href={projectData.links.github} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center justify-between w-full bg-space-800 hover:bg-space-700 p-4 rounded-2xl border border-gray-700 hover:border-gray-500 transition-colors group"
-              >
-                <div className="flex items-center space-x-3 text-gray-300 group-hover:text-white transition-colors">
-                  <FaGithub size={24} />
-                  <span className="font-medium">Source Code</span>
-                </div>
-                <div className="bg-gray-800 p-2 rounded-xl group-hover:bg-gray-700 group-hover:text-neon-purple transition-colors">
-                  <ArrowLeft className="w-4 h-4 rotate-135" style={{ transform: 'rotate(135deg)' }} />
-                </div>
-              </a>
+              <div className="space-y-3">
+                {githubLinks.map((link, index) => (
+                  <a 
+                    key={index}
+                    href={link.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between w-full bg-space-800 hover:bg-space-700 p-4 rounded-2xl border border-gray-700 hover:border-gray-500 transition-colors group"
+                  >
+                    <div className="flex items-center space-x-3 text-gray-300 group-hover:text-white transition-colors">
+                      <FaGithub size={24} />
+                      <span className="font-medium">{link.label[language]}</span>
+                    </div>
+                    <div className="bg-gray-800 p-2 rounded-xl group-hover:bg-gray-700 group-hover:text-neon-purple transition-colors">
+                      <ArrowLeft className="w-4 h-4" style={{ transform: 'rotate(135deg)' }} />
+                    </div>
+                  </a>
+                ))}
+              </div>
             </div>
 
           </motion.div>

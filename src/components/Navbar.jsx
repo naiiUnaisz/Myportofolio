@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const { language, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -11,10 +13,10 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' }
+    { key: 'home', href: '#home' },
+    { key: 'about', href: '#about' },
+    { key: 'projects', href: '#projects' },
+    { key: 'contact', href: '#contact' }
   ];
 
   return (
@@ -29,17 +31,34 @@ const Navbar = () => {
           <span className="text-white">Unai</span>
           <span className="text-neon-purple text-glow">Profile</span>
         </a>
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
             <a 
-              key={link.name} 
+              key={link.key} 
               href={link.href}
               className="text-sm font-medium tracking-wide hover:text-neon-purple transition-colors duration-200"
             >
-              {link.name.toUpperCase()}
+              {t(`navbar.${link.key}`).toUpperCase()}
             </a>
           ))}
+          <button 
+            onClick={toggleLanguage}
+            className="flex items-center gap-1 px-3 py-1 rounded-full border border-neon-purple/50 text-sm font-medium hover:bg-neon-purple/10 transition-all"
+          >
+            <span className={`${language === 'en' ? 'text-neon-purple' : 'text-gray-400'}`}>EN</span>
+            <span className="text-gray-500">|</span>
+            <span className={`${language === 'id' ? 'text-neon-purple' : 'text-gray-400'}`}>ID</span>
+          </button>
         </div>
+        {/* Mobile toggle */}
+        <button 
+          onClick={toggleLanguage}
+          className="md:hidden flex items-center gap-1 px-3 py-1 rounded-full border border-neon-purple/50 text-sm font-medium hover:bg-neon-purple/10 transition-all"
+        >
+          <span className={`${language === 'en' ? 'text-neon-purple' : 'text-gray-400'}`}>EN</span>
+          <span className="text-gray-500">|</span>
+          <span className={`${language === 'id' ? 'text-neon-purple' : 'text-gray-400'}`}>ID</span>
+        </button>
       </div>
     </motion.nav>
   );

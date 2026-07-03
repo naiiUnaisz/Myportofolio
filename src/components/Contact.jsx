@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaInstagram, FaWhatsapp } from 'react-icons/fa';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ContactItem = ({ icon: Icon, title, value, href }) => {
   const content = (
@@ -45,10 +46,13 @@ const ContactItem = ({ icon: Icon, title, value, href }) => {
 };
 
 const Contact = () => {
+  const { language, t } = useLanguage();
+
   return (
     <motion.section 
       id="contact" 
       className="py-24 px-6 md:px-12 bg-space-900 border-t border-neon-purple/20 relative z-10"
+      key={language}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.15 }}
@@ -65,13 +69,13 @@ const Contact = () => {
           className="mb-16 flex flex-col items-start"
         >
           <h2 className="text-sm tracking-widest text-neon-purple font-semibold uppercase mb-4">
-            GET IN TOUCH
+            {t('contact.sectionTitle')}
           </h2>
           <h3 className="text-4xl md:text-5xl font-heading font-bold mb-6 text-glow">
-            Let's Build Something <span className="text-white">Amazing Together.</span>
+            {t('contact.title')}
           </h3>
           <p className="text-gray-400 text-lg leading-relaxed max-w-2xl">
-            Whether you have a question, a project idea, or just want to say hi, feel free to drop a message!
+            {t('contact.description')}
           </p>
         </motion.div>
 
@@ -93,31 +97,31 @@ const Contact = () => {
           <motion.div variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}>
             <ContactItem 
               icon={MapPin} 
-              title="LOCATION" 
+              title={t('contact.location')} 
               value="Cileungsi, West Java, Indonesia." 
             />
           </motion.div>
           <motion.div variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}>
             <ContactItem 
               icon={Mail} 
-              title="EMAIL SUPPORT" 
-              value="unaisah2107@gmail.com" 
-              href="mailto:unaisah2107@gmail.com" 
+              title={t('contact.email')} 
+              value="unaiiunais207@gmail.com" 
+              href="mailto:unaiiunais207@gmail.com" 
             />
           </motion.div>
           <motion.div variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}>
             <ContactItem 
               icon={Phone} 
-              title="LET'S TALK" 
-              value="WhatsApp: +62 878-3706-4731" 
+              title={t('contact.whatsapp')} 
+              value="+62 878-3706-4731" 
               href="https://wa.me/6287837064731" 
             />
           </motion.div>
           <motion.div variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }}>
             <ContactItem 
               icon={Clock} 
-              title="AVAILABILITY" 
-              value="Available for remote projects" 
+              title={t('contact.availability')} 
+              value={t('contact.availabilityValue')} 
             />
           </motion.div>
         </motion.div>
@@ -130,25 +134,16 @@ const Contact = () => {
           viewport={{ once: true, amount: 0.8 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <p className="text-gray-300 font-medium mb-6 tracking-wide text-lg">Follow my social media</p>
+          <p className="text-gray-300 font-medium mb-6 tracking-wide text-lg">{t('contact.connectWithMe')}</p>
           <div className="flex justify-start space-x-6">
             <a 
-              href="https://wa.me/6287837064731" 
+              href="https://github.com/naiiUnaisz" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="w-14 h-14 rounded-full border border-neon-purple/50 flex items-center justify-center text-gray-300 hover:text-white hover:border-neon-purple hover:bg-neon-purple/20 transition-all duration-300 hover:-translate-y-1 shadow-[0_0_10px_rgba(176,38,255,0.1)] hover:shadow-[0_0_20px_rgba(176,38,255,0.3)]"
-              aria-label="WhatsApp"
+              aria-label="GitHub"
             >
-              <FaWhatsapp size={24} />
-            </a>
-            <a 
-              href="https://www.instagram.com/unaiunaish_/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="w-14 h-14 rounded-full border border-neon-purple/50 flex items-center justify-center text-gray-300 hover:text-white hover:border-neon-purple hover:bg-neon-purple/20 transition-all duration-300 hover:-translate-y-1 shadow-[0_0_10px_rgba(176,38,255,0.1)] hover:shadow-[0_0_20px_rgba(176,38,255,0.3)]"
-              aria-label="Instagram"
-            >
-              <InstagramIcon />
+              <FaGithub size={24} />
             </a>
             <a 
               href="https://www.linkedin.com/in/unaisahhadi/" 
@@ -160,13 +155,22 @@ const Contact = () => {
               <FaLinkedin size={24} />
             </a>
             <a 
-              href="https://github.com/naiiUnaisz" 
+              href="mailto:unaiiunais207@gmail.com" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="w-14 h-14 rounded-full border border-neon-purple/50 flex items-center justify-center text-gray-300 hover:text-white hover:border-neon-purple hover:bg-neon-purple/20 transition-all duration-300 hover:-translate-y-1 shadow-[0_0_10px_rgba(176,38,255,0.1)] hover:shadow-[0_0_20px_rgba(176,38,255,0.3)]"
-              aria-label="GitHub"
+              aria-label="Email"
             >
-              <FaGithub size={24} />
+              <Mail size={24} />
+            </a>
+            <a 
+              href="https://www.instagram.com/unaiunaish_/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="w-14 h-14 rounded-full border border-neon-purple/50 flex items-center justify-center text-gray-300 hover:text-white hover:border-neon-purple hover:bg-neon-purple/20 transition-all duration-300 hover:-translate-y-1 shadow-[0_0_10px_rgba(176,38,255,0.1)] hover:shadow-[0_0_20px_rgba(176,38,255,0.3)]"
+              aria-label="Instagram"
+            >
+              <InstagramIcon />
             </a>
           </div>
         </motion.div>
@@ -174,8 +178,9 @@ const Contact = () => {
       </div>
       
       {/* Footer minimal */}
-      <div className="mt-20 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-        <p>© {new Date().getFullYear()} Unaisah. All rights reserved. Designed with React + Tailwind + Framer Motion.</p>
+      <div className="mt-20 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm space-y-2">
+        <p>{t('footer.copyright')}</p>
+        <p>{t('footer.builtWith')}</p>
       </div>
     </motion.section>
   );
